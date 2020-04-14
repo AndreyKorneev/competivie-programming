@@ -51,6 +51,7 @@ class SnippetParser(object):
         group = []
         for line_num, line in enumerate(readlines(path), 1):
             if line.startswith(BEGIN_TAG):
+                dprint(f'Process {line}')
                 key = line[len(BEGIN_TAG):].strip().strip('`')
                 if snippet is not None:
                     raise Exception(f'Unexpected open section '
@@ -58,6 +59,7 @@ class SnippetParser(object):
                 snippet = Snippet(
                     key, enabled=key.startswith(ALWAYS_INCLUDE_TAG))
             elif line.startswith(END_TAG):
+                dprint(f'Process {line}')
                 key = line[len(END_TAG):].strip().strip('`')
                 if snippet is None or snippet.tag != key:
                     raise Exception(f'Unexpected close section '

@@ -9,7 +9,7 @@ using namespace std;
 using lli = long long int;
 //~ END ALWAYS_INCLUDE
 
-//~BEGIN `GCC_COMPILER`
+//~ BEGIN `GCC_COMPILER`
 #if defined(__GNUC__) && !defined(__clang__)
 #define GCC_COMPILER
 #endif

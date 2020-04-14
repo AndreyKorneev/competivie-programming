@@ -2,8 +2,7 @@ update_headers() {
   OUT_FILE="algs/all.h"
   find -s algs -name "*.h" -maxdepth 1 | grep -v "$OUT_FILE" > $OUT_FILE
   find -s algs -name "*.h" -mindepth 2  >> $OUT_FILE
-  sed -i -e 's/^/#include "/' $OUT_FILE
-  sed -i -e 's/$/"/' $OUT_FILE
+  sed -i '' -e 's/^/#include "/' -e 's/$/"/' $OUT_FILE
 }
 
 run() {
