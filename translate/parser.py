@@ -11,7 +11,7 @@ from util import readlines
 
 LOCAL_INCLUDE_RE = re.compile('#include "([\w\/]+.h)"')
 BEGIN_TAG = '//~ BEGIN'
-REQUIRED_TAG = '//required:'
+REQUIRED_TAG = '// required:'
 END_TAG = '//~ END'
 ALWAYS_INCLUDE_TAG = 'ALWAYS_INCLUDE'
 DEBUG = 0
@@ -77,6 +77,7 @@ class SnippetParser(object):
                     None,
                     map(str.strip, line[len(REQUIRED_TAG):].split(','))
                 ):
+                    dprint(f'{snippet.tag} depends on `{dependency}`')
                     if dependency not in self.snippets:
                         raise Exception(f'Unknown dependency {dependency} '
                                         f'for snippet {snippet.tag}'
@@ -100,7 +101,7 @@ class SnippetParser(object):
         if (snippet is not None) and (not snippet.enabled):
             snippet.enabled = True
             for dependency in snippet.dependencies:
-                self.enable_snippet(dependency)
+                self.enable_snippet(dependency.tag)
 
     def get_enabled_snippets(self) -> str:
         result = []
