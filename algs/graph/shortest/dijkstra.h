@@ -5,7 +5,7 @@
 #include "algs/graph/shortest/solver.h"
 
 //~ BEGIN `Dijkstra`
-//required: ShortestPathSolver
+// required: ShortestPathSolver
 template<typename TSum = SumF<lli>>
 struct Dijkstra : public ShortestPathSolver<TSum>{
   using QT = pair<typename TSum::TCost, int>;

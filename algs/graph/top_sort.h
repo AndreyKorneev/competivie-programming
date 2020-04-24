@@ -4,7 +4,7 @@
 #include "algs/graph/graph.h"
 
 //~ BEGIN `TopologicalSort`
-//required: Graph
+// required: Graph, all
 struct TopologicalSort {
   TopologicalSort(const Graph* g) : graph_(g), used(g->N()) {}
 

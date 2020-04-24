@@ -1,5 +1,5 @@
-#ifndef GRAPH_GRAPH_H_
-#define GRAPH_GRAPH_H_
+#ifndef GRAPH_TREE_H_
+#define GRAPH_TREE_H_
 #include "algs/common.h"
 #include "algs/graph/graph.h"
 
@@ -59,4 +59,13 @@ struct Tree : public Graph {
   vector<vector<int>> parents;
 };
 //~ END `Tree`
+//
+//~ BEGIN `ReadTree`
+// required: Tree, ReadEdges
+Tree* ReadTree(bool unordered = true, bool weighted = false) {
+  int n;
+  cin >> n;
+  return new Tree(n, ReadEdges(n - 1, weighted), unordered);
+}
+//~ END `ReadTree`
 #endif

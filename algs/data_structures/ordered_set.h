@@ -3,7 +3,7 @@
 
 #include "algs/common.h"
 //~ BEGIN ordered_set
-//required: GCC_COMPILER
+// required: GCC_COMPILER
 #ifdef GCC_COMPILER
 using namespace __gnu_pbds;
 #include <ext/pb_ds/assoc_container.hpp>

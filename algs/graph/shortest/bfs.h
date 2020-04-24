@@ -5,7 +5,7 @@
 #include "algs/graph/shortest/solver.h"
 
 //~ BEGIN `BfsSolver`
-//required: ShortestPathSolver
+// required: ShortestPathSolver
 template<typename TSum = SumF<lli>>
 struct BfsSolver : public ShortestPathSolver<TSum>{
   void Run() override {

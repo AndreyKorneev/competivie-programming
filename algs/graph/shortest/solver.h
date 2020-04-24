@@ -4,7 +4,7 @@
 #include "algs/graph/graph.h"
 
 //~ BEGIN `ShortestPathSolver`
-// required: Graph
+// required: Graph, lli
 template <typename T = lli>
 struct SumF {
   using TCost = T;
