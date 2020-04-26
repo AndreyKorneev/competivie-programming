@@ -8,6 +8,8 @@
 // required: ShortestPathSolver
 template<typename TSum = SumF<lli>>
 struct BfsSolver : public ShortestPathSolver<TSum>{
+  BfsSolver(const Graph* g, int source) : ShortestPathSolver<TSum>(g, source) {}
+
   void Run() override {
     queue<int> q;
     distances[source_] = TSum::Default();

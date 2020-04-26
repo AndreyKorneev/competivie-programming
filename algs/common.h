@@ -18,6 +18,15 @@ using lli = long long int;
 using pii = pair<int, int>;
 //~ END `pii`
 
+//~ BEGIN `vi`
+using vi = vector<int>;
+//~ END `vi`
+
+//~ BEGIN `vpii`
+// required: pii
+using vpii = vector<pii>;
+//~ END `vpii`
+
 //~ BEGIN `GCC_COMPILER`
 #if defined(__GNUC__) && !defined(__clang__)
 #define GCC_COMPILER
