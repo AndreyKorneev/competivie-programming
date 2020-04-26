@@ -14,7 +14,8 @@ prepare_fs() {
 compile() {
   filename="$(basename -s ".cpp" $1)"
   ./translate/__main__.py "$1" "generated/${filename}.cpp"
-  g++-9 -std=gnu++1z -I . -O2 -D LOCAL "generated/${filename}.cpp" -o "obj/${filename}.out"
+  g++-9 -I . -O2 -D LOCAL "generated/${filename}.cpp" -o "obj/${filename}.out"
+  # g++-9 -std=gnu++1z -I . -O2 -D LOCAL "generated/${filename}.cpp" -o "obj/${filename}.out"
 }
 
 run() {
