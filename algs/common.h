@@ -21,6 +21,11 @@ using pii = pair<int, int>;
 //~ BEGIN `vi`
 using vi = vector<int>;
 //~ END `vi`
+//
+//~ BEGIN `vvi`
+// required: vi
+using vvi = vector<vi>;
+//~ END `vvi`
 
 //~ BEGIN `vpii`
 // required: pii
