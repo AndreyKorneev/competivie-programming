@@ -3,6 +3,7 @@
 #include "algs/io.h"
 #include "algs/random.h"
 #include "algs/data_structures/array.h"
+#include "algs/data_structures/collections.h"
 #include "algs/data_structures/fenwick.h"
 #include "algs/data_structures/ordered_set.h"
 #include "algs/data_structures/segment.h"
@@ -19,3 +20,4 @@
 #include "algs/number/fraction.h"
 #include "algs/number/gcd.h"
 #include "algs/number/moduled.h"
+#include "algs/strings/strings.h"
