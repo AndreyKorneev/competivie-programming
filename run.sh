@@ -1,4 +1,5 @@
-DEBUG_FLAGS=(-g -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -DLOCAL -rdynamic)
+#DEBUG_FLAGS=(-g -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -DLOCAL -rdynamic)
+DEBUG_FLAGS=(-g -fsanitize=address -fsanitize=undefined -DLOCAL -rdynamic)
 
 update_headers() {
   OUT_FILE="algs/all.h"
