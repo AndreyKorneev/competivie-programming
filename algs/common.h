@@ -47,4 +47,14 @@ using llf = long double;
 #endif
 //~ END `llf`
 
+//~ BEGIN `OPTIMIZE`
+// required: GCC_COMPILER
+// Source: https://codeforces.com/blog/entry/60598
+#ifdef GCC_COMPILER
+#pragma GCC optimize("Ofast")
+#pragma GCC optimize ("unroll-loops")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
+#endif
+//~ END `OPTIMIZE`
+
 #endif
