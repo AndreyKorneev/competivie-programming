@@ -30,6 +30,15 @@ struct Graph {
 
   inline int N() const { return g.size(); }
 
+  vector<vector<int>> ToVector() {
+    vector<vector<int>> result(g.size());
+    for (int i = 0; i < g.size(); ++i) {
+      result[i].reserve(g[i].size());
+      for (auto& e : g[i]) result[i].push_back(e.next(i));
+    }
+    return result;
+  }
+
   vector<vector<Edge>> g;
 };
 //~ END `Graph`

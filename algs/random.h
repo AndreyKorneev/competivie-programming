@@ -4,9 +4,7 @@
 #include "algs/common.h"
 //~ BEGIN `rand_float`
 float rand_float() {
-    static std::default_random_engine e;
-    static std::uniform_real_distribution<> dis(0, 1);
-    return dis(e);
+  return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 }
 //~ END `rand_float`
 

@@ -3,7 +3,8 @@
 #include "algs/common.h"
 
 //~ BEGIN ZFunction
-vector<int> ZFunction(string s) {
+// source: https://codeforces.com/edu/course/2/lesson/3/1
+vector<int> ZFunction(const string& s) {
   vector<int> z(s.size());
   for (int i = 1, l = 0, r = 1; i < z.size(); ++i) {
     if (i < r) z[i] = min(z[i - l], r - i);

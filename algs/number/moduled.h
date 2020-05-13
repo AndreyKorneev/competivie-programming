@@ -3,6 +3,7 @@
 #include "algs/common.h"
 
 //~ BEGIN `ModuledNumber`
+// required: lli
 template <typename T, std::size_t M>
 struct ModuledNumber {
   static size_t MODULO;

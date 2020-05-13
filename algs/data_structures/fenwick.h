@@ -15,7 +15,10 @@ struct FenwickTree {
     for (; r >= 0; r = PREV(r)) res += t_[r];
     return res;
   }
-  T sum(int l, int r) const { return sum(r) - sum(l - 1); }
+  T sum(int l, int r) const {
+    if (r < l) return 0;
+    return sum(r) - sum(l - 1);
+  }
   int n_;
   vector<T> t_;
 };

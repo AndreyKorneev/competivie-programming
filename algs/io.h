@@ -8,7 +8,8 @@ template <typename T> vector<T> read_vector() { int n; cin >> n; return read_vec
 //~ END `read_vector`
 
 //~ BEGIN `print_vector_no_size`
-template <typename T> void print_vector_no_size(const vector<T>& v) { for (const auto a : v) cout << a << ' '; cout << endl; }
+template <typename T> void print_vector_no_size(T start, T end) { while(start < end) cout << *(start++) << ' '; cout << endl; }
+template <typename T> void print_vector_no_size(const vector<T>& v) { print_vector_no_size(v.begin(), v.end()); }
 //~ END `print_vector_no_size`
 
 //~ BEGIN `print_vector`
@@ -19,5 +20,9 @@ template <typename T> void print_vector(const vector<T>& v) { cout << v.size() <
 //~ BEGIN `print_pair`
 template <typename T, typename U> void print_pair(const pair<T, U>& p) { cout << p.first << ' ' << p.second << endl; }
 //~ END `print_pair`
+
+//~ BEGIN `read`
+template <typename T> T read() { T a; cin >> a; return a; }
+//~ END `read`
 
 #endif
