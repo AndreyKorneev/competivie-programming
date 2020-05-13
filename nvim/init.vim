@@ -40,6 +40,8 @@ Plugin 'mileszs/ack.vim'
 Plugin 'Yggdroot/indentLine'
 Plugin 'majutsushi/tagbar'
 Plugin 'Valloric/YouCompleteMe', { 'do': './install.py' }
+" Debugger.
+Plugin 'Conque-GDB'
 " Plugin 'wincent/command-t'
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
@@ -170,3 +172,5 @@ function! OpenAll()
   execute "e main.cpp"
 endfunction
 
+" debugging
+let g:ConqueGdb_Leader = '\'
