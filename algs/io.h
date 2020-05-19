@@ -8,17 +8,17 @@ template <typename T> vector<T> read_vector() { int n; cin >> n; return read_vec
 //~ END `read_vector`
 
 //~ BEGIN `print_vector_no_size`
-template <typename T> void print_vector_no_size(T start, T end) { while(start < end) cout << *(start++) << ' '; cout << endl; }
-template <typename T> void print_vector_no_size(const vector<T>& v) { print_vector_no_size(v.begin(), v.end()); }
+template <typename T, char SEP = ' '> void print_vector_no_size(T start, T end) { while(start < end) cout << *(start++) << SEP; cout << endl; }
+template <typename T, char SEP = ' '> void print_vector_no_size(const vector<T>& v) { print_vector_no_size<T, SEP>(v.begin(), v.end()); }
 //~ END `print_vector_no_size`
 
 //~ BEGIN `print_vector`
 // required: print_vector_no_size
-template <typename T> void print_vector(const vector<T>& v) { cout << v.size() << endl; print_vector_no_size(v); }
+template <typename T, char SEP = ' '> void print_vector(const vector<T>& v) { cout << v.size() << endl; print_vector_no_size<T, SEP>(v); }
 //~ END `print_vector`
 
 //~ BEGIN `print_pair`
-template <typename T, typename U> void print_pair(const pair<T, U>& p) { cout << p.first << ' ' << p.second << endl; }
+template <typename T, typename U, char SEP = ' '> void print_pair(const pair<T, U>& p) { cout << p.first << SEP << p.second << endl; }
 //~ END `print_pair`
 
 //~ BEGIN `read`
