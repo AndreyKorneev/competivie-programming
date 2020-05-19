@@ -27,6 +27,8 @@ template <typename T> struct Point {
 
   Point<T>& operator+=(const Point<T>& rhs) { *this = this->operator+(rhs); return *this; }
   Point<T>& operator-=(const Point<T>& rhs) { *this = this->operator-(rhs); return *this; }
+  Point<T>& operator*=(const T& k) { *this = this->operator*(k); return *this; }
+  Point<T>& operator/=(const T& k) { *this = this->operator/(k); return *this; }
 
   bool operator<(const Point<T> &rhs) const {
     return (this->x < rhs.x || (this->x == rhs.x && this->y < rhs.y));
@@ -37,7 +39,13 @@ template <typename T> struct Point {
 
   Point<T> operator-(const Point<T> &rhs) const { return {x - rhs.x, y - rhs.y}; }
   Point<T> operator+(const Point<T> &rhs) const { return {x + rhs.x, y + rhs.y}; }
+  Point<T> operator*(const T &k) const { return {x * k, y * k}; }
+  Point<T> operator/(const T &k) const { return {x / k, y / k}; }
   Point<T> DotProduct(const Point<T> &rhs) const { return {x * rhs.x + y * rhs.y}; }
+  Point<T> Rotate(double a) const { return {x * cos(a) - y * sin(a), x * sin(a) + y * cos(a)}; }
+  Point<T> Norm() const { return *this / Length(); }
+  double Length() const { return sqrt(x * 1.0 * x + y * 1.0 * y); }
+  double Distance(const Point<T> &rhs) const { return (*this - rhs).Length(); }
   double PolarAngle() const {
     double alpha = atan2(y, x);
     if (alpha < 0) alpha += 2 * PI;
