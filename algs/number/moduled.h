@@ -28,6 +28,10 @@ struct ModuledNumber {
     value = this->operator+(rhs).value;
     return *this;
   }
+  ModuledNumber<T, M>& operator-=(const ModuledNumber<T, M>& rhs) {
+    value = this->operator-(rhs).value;
+    return *this;
+  }
 
   ModuledNumber<T, M>& operator*=(const ModuledNumber<T, M>& rhs) {
     value = this->operator*(rhs).value;
@@ -43,6 +47,9 @@ struct ModuledNumber {
 
   ModuledNumber<T, M> operator+(const ModuledNumber<T, M>& rhs) const {
     return value + rhs.value;
+  }
+  ModuledNumber<T, M> operator-(const ModuledNumber<T, M>& rhs) const {
+    return value + MODULO - rhs.value;
   }
   ModuledNumber<T, M> operator*(const ModuledNumber<T, M>& rhs) const {
     return value * 1ll * rhs.value;
