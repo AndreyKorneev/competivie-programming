@@ -2,14 +2,19 @@
 #define DATA_STRUCTURES_SEGTREE_H_
 #include "algs/common.h"
 
+//~ BEGIN `SEGT_SIZE`
+#define SEGT_SIZE(p) (((p) << 2) + 123)
+//~ END `SEGT_SIZE`
+
 //~ BEGIN `MinMaxSTWithAddition`
+// required: SEGT_SIZE
 template <class T>
 struct MinMaxSTWithAddition {
   MinMaxSTWithAddition(const vector<T> &v)
       : n_(v.size()),
-        min_(v.size() * 4 + 123),
-        max_(v.size() * 4 + 123),
-        add_(v.size() * 4 + 123) {
+        min_(SEGT_SIZE(n_)),
+        max_(SEGT_SIZE(n_)),
+        add_(SEGT_SIZE(n_)) {
     build(v);
   }
 
@@ -88,5 +93,67 @@ struct MinMaxSTWithAddition {
   vector<T> min_, max_, add_;
 };
 //~ END `MinMaxSTWithAddition`
+
+//~ BEGIN `SumSegmentTree`
+// required: SEGT_SIZE
+template <class T>
+struct SumSegmentTree {
+  SumSegmentTree(int n) : n_(n), t_(SEGT_SIZE(n_))  { }
+  SumSegmentTree(const vector<T>& v) : n_(v.size()), t_(SEGT_SIZE(n_)) { build(v); }
+
+  void build(const vector<T> &source) { build(source, 0, 0, n_ - 1); }
+  void build(const vector<T> &source, int v, int l, int r) {
+    if (l == r) {
+      t_[v] = source[l];
+    } else {
+      int m = (l + r) / 2;
+      int ch = (v << 1) + 1;
+      build(source, ch, l, m);
+      build(source, ch + 1, m + 1, r);
+      upd(v, ch);
+    }
+  }
+  inline void upd(int v, int ch) { t_[v] = t_[ch] + t_[ch + 1]; }
+
+  void add(int pos, int delta) { add(0, 0, n_ - 1, pos, delta); }
+  void add(int v, int l, int r, int pos, int delta) {
+    while (l <= r) {
+      t_[v] += delta;
+      if (l == r) break;
+      int m = (l + r) / 2;
+      int ch = (v << 1) + 1;
+      if (pos <= m) { v = ch; r = m; }
+      else { v = ch + 1; l = m + 1; }
+    }
+  }
+  void add_kth(int k, int delta) { add_kth(0, 0, n_ - 1, k, delta); }
+  void add_kth(int v, int l, int r, int k, int delta) {
+    if (t_[v] < k) return;
+    while (l <= r) {
+      t_[v] += delta;
+      if (l == r) break;
+      int m = (l + r) / 2;
+      int ch = (v << 1) + 1;
+      if (t_[ch] >= k) { v = ch; r = m; }
+      else { v = ch + 1; l = m + 1; k -= t_[ch]; }
+    }
+  }
+
+  int get_kth(int k) const { return get_kth(0, 0, n_ - 1, k); }
+  int get_kth(int v, int l, int r, int k) const {
+    if (t_[v] < k) return -1;
+    while (l < r) {
+      int m = (l + r) / 2;
+      int ch = (v << 1) + 1;
+      if (t_[ch] >= k) { v = ch; r = m; }
+      else { v = ch + 1; l = m + 1; k -= t_[ch]; }
+    }
+    return l;
+  }
+
+  int n_;
+  vector<T> t_;
+};
+//~ END `SumSegmentTree`
 
 #endif
