@@ -6,7 +6,7 @@ STRESS_TEST_OUTPUT_EACH=1000
 STRESS_FAIL_ON_INCORRECT_TEST=true
 
 strip_debug_code() {
-  if command -v unifdef >/dev/null 2>&1; then
+  if command -v unifdef > /dev/null; then
     unifdef -ULOCAL $1 > $2
   else
     cat $1 > $2
@@ -29,7 +29,7 @@ prepare_fs() {
 compile() {
   filename="$(basename -s ".cpp" $1)"
   ./translate/__main__.py "$1" "generated/${filename}.cpp"
-  strip_debug_code "generated/${filename}.cpp" > "generated/${filename}_no_debug.cpp"
+  strip_debug_code "generated/${filename}.cpp" "generated/${filename}_no_debug.cpp"
   g++-9 -std=gnu++1z -I . -O2 -D LOCAL "generated/${filename}.cpp" -o "obj/${filename}.out"
 }
 
