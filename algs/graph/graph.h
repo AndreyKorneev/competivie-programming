@@ -2,7 +2,7 @@
 #define GRAPH_GRAPH_H_
 #include "algs/common.h"
 
-//~ BEGIN `Graph`
+//~ BEGIN `Edge`
 struct Edge {
   int from;
   int to;
@@ -15,7 +15,10 @@ struct Edge {
 
   inline int next(int v) const { return v ^ from ^ to; }
 };
+//~ END `Edge`
 
+//~ BEGIN `Graph`
+// required: Edge
 struct Graph {
   Graph() {}
   Graph(const vector<vector<Edge>>& g) : g(g) {}
@@ -44,7 +47,7 @@ struct Graph {
 //~ END `Graph`
 
 //~ BEGIN `ReadEdges`
-// required: Graph
+// required: Edge
 vector<Edge> ReadEdges(int m, bool weighted = false) {
   vector<Edge> edges(m);
   for (int i = 0; i < m; ++i) {

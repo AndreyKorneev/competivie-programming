@@ -15,6 +15,8 @@
 #include "algs/geometry/polygon.h"
 #include "algs/graph/bridges.h"
 #include "algs/graph/dsu.h"
+#include "algs/graph/flow/flow.h"
+#include "algs/graph/flow/min_cost_max_flow.h"
 #include "algs/graph/graph.h"
 #include "algs/graph/shortest/bfs.h"
 #include "algs/graph/shortest/dijkstra.h"
