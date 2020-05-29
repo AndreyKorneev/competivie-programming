@@ -9,7 +9,7 @@ template <typename T> vector<T> read_vector() { int n; cin >> n; return read_vec
 
 //~ BEGIN `print_vector_no_size`
 template <typename T, char SEP = ' '> void print_vector_no_size(T start, T end) { while(start < end) cout << *(start++) << SEP; cout << endl; }
-template <typename T, char SEP = ' '> void print_vector_no_size(const vector<T>& v) { print_vector_no_size<T, SEP>(v.begin(), v.end()); }
+template <typename T, char SEP = ' '> void print_vector_no_size(const vector<T>& v) { print_vector_no_size<typename vector<T>::const_iterator, SEP>(v.begin(), v.end()); }
 //~ END `print_vector_no_size`
 
 //~ BEGIN `print_vector`

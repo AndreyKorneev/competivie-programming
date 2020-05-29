@@ -2,9 +2,13 @@
 #define DATA_STRUCTURES_FENWICK_H_
 #include "algs/common.h"
 
-//~ BEGIN `FenwickTree`
+//~ BEGIN `FenwickOperations`
 #define NEXT(p) ((p) | ((p) + 1))
 #define PREV(p) (((p) & ((p) + 1)) - 1)
+//~ END `FenwickOperations`
+
+//~ BEGIN `FenwickTree`
+// required: FenwickOperations
 template <class T>
 struct FenwickTree {
   FenwickTree(int n) : n_(n), t_(n_ + 123) { }
@@ -23,5 +27,10 @@ struct FenwickTree {
   vector<T> t_;
 };
 //~ END `FenwickTree`
+//
+//~ BEGIN `FenwickTreeRangeUpdate`
+// required: FenwickOperations
+// TODO :)
+//~ END `FenwickTreeRangeUpdate`
 
 #endif

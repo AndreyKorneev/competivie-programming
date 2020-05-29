@@ -29,7 +29,7 @@ struct FlowSolver {
     edges.emplace_back(to, from, 0, -cost, (int)edges.size());
     g[to].push_back(edges.back().idx);
     if (undirected) {
-      AddEdge(from, to, capacity, cost, false);
+      AddEdge(to, from, capacity, cost, false);
     }
   }
 

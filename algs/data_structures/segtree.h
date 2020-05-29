@@ -156,4 +156,118 @@ struct SumSegmentTree {
 };
 //~ END `SumSegmentTree`
 
+//~ BEGIN `SumRangeAssigmentSegmentTree`
+// required: SEGT_SIZE
+template <class T>
+struct SumRangeAssigmentSegmentTree {
+  static const T DEFAULT = std::numeric_limits<T>::min();
+
+  SumRangeAssigmentSegmentTree(int n) : SumRangeAssigmentSegmentTree(vector<T>(n)) { }
+  SumRangeAssigmentSegmentTree(const vector<T> &v)
+      : n_(v.size()),
+        t_(SEGT_SIZE(n_)),
+        v_(SEGT_SIZE(n_), DEFAULT),
+        cnt_(SEGT_SIZE(n_)) {
+    build(v);
+  }
+
+  void build(const vector<T> &source) { build(source, 0, 0, n_ - 1); }
+  void build(const vector<T> &source, int v, int l, int r) {
+    if (l == r) {
+      t_[v] = source[l];
+      cnt_[v] = 1;
+    } else {
+      int m = (l + r) / 2;
+      int ch = (v << 1) + 1;
+      build(source, ch, l, m);
+      build(source, ch + 1, m + 1, r);
+      upd(v, ch);
+      cnt_[v] = cnt_[ch] + cnt_[ch+1];
+    }
+  }
+  inline void upd(int v, int ch) {
+    if (v_[v] != DEFAULT) {
+      v_[ch] = v_[ch + 1] = v_[v];
+      t_[ch] = cnt_[ch] * v_[v];
+      t_[ch+1] = cnt_[ch+1] * v_[v];
+      v_[v] = DEFAULT;
+    }
+    t_[v] = t_[ch] + t_[ch + 1];
+  }
+  void setv(int l, int r, const T& val) {setv(0, 0, n_ - 1, l, r, val); }
+  void setv(int v, int l, int r, int ll, int rr, const T& val) {
+    if (ll > rr) return;
+    if (l == ll && r == rr) {
+      v_[v] = val;
+      t_[v] = val * cnt_[v];
+    } else {
+      int m = (l + r) / 2;
+      int ch = (v << 1) + 1;
+      upd(v, ch);
+      setv(ch, l, m, ll, min(m, rr), val);
+      setv(ch + 1, m + 1, r, max(ll, m + 1), rr, val);
+      upd(v, ch);
+    }
+  }
+  int get_kth(int k) { return get_kth(0, 0, n_ - 1, k); }
+  int get_kth(int v, int l, int r, int k) {
+    if (t_[v] < k) return -1;
+    while (l < r) {
+      int m = (l + r) / 2;
+      int ch = (v << 1) + 1;
+      upd(v, ch);
+      if (t_[ch] >= k) { v = ch; r = m; }
+      else { v = ch + 1; l = m + 1; k -= t_[ch]; }
+    }
+    return l;
+  }
+
+  int n_;
+  vector<T> t_;
+  vector<T> v_;
+  vector<T> cnt_;
+};
+//~ END `SumRangeAssigmentSegmentTree`
+
+//~ BEGIN `MaxSegmentTree`
+// required: SEGT_SIZE
+template <class T> struct MaxSegmentTree {
+  MaxSegmentTree(int n) : n_(n), t_(SEGT_SIZE(n_))  { }
+  MaxSegmentTree(const vector<T>& v) : n_(v.size()), t_(SEGT_SIZE(n_)) { build(v); }
+
+  void build(const vector<T> &source) { build(source, 0, 0, n_ - 1); }
+  void build(const vector<T> &source, int v, int l, int r) {
+    if (l == r) {
+      t_[v] = source[l];
+    } else {
+      int m = (l + r) / 2;
+      int ch = (v << 1) + 1;
+      build(source, ch, l, m);
+      build(source, ch + 1, m + 1, r);
+      upd(v, ch);
+    }
+  }
+  inline void upd(int v, int ch) { t_[v] = max(t_[ch], t_[ch + 1]); }
+
+  int IndexOfFirstGreaterOrEqualThan(int l, const T& given) const {
+    return IndexOfFirstGreaterOrEqualThan(0, 0, n_ - 1, l, n_ -1, given);
+  }
+  int IndexOfFirstGreaterOrEqualThan(int l, int r, const T& given) const {
+    return IndexOfFirstGreaterOrEqualThan(0, 0, n_ - 1, l, r, given);
+  }
+  int IndexOfFirstGreaterOrEqualThan(int v, int l, int r, int ll, int rr, const T& given) const {
+    if (ll > rr) return -1;
+    if (t_[v] < given) return -1;
+    if (l == r) return l;
+    int m = (l + r) / 2;
+    int ch = (v << 1) + 1;
+    int res = IndexOfFirstGreaterOrEqualThan(ch, l, m, ll, min(m, rr), given);
+    if (res != -1) return res;
+    return IndexOfFirstGreaterOrEqualThan(ch+1, m+1, r, max(ll, m+1), rr, given);
+  }
+  int n_;
+  vector<T> t_;
+};
+//~ END `MaxSegmentTree`
+
 #endif

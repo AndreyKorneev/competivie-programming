@@ -6,9 +6,15 @@
 template <typename T> struct Fraction {
   Fraction(const T &n) : numerator(n), denominator(1) {}
   Fraction(const T &n, const T &d) : numerator(n), denominator(d) {
-    auto g = __gcd(numerator, denominator);
-    numerator /= g;
-    denominator /= g;
+    if (denominator == 0 && numerator == 0) {}
+    else if (numerator == 0) denominator = 1;
+    else if (denominator == 0) numerator = 1;
+    else {
+      auto g = __gcd(abs(numerator), abs(denominator));
+      numerator /= g;
+      denominator /= g;
+      if (denominator < 0) { numerator = -numerator; denominator = -denominator; }
+    }
   }
 
   Fraction<T>& operator+=(const Fraction<T>& rhs) { *this = this->operator+(rhs); return *this; }

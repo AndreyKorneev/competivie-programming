@@ -68,4 +68,35 @@ Tree* ReadTree(bool unordered = true, bool weighted = false) {
   return new Tree(n, ReadEdges(n - 1, weighted), unordered);
 }
 //~ END `ReadTree`
+
+//~ BEGIN `EulerTraversal`
+// required: Tree
+struct EulerTraversal {
+  EulerTraversal(const Tree* tree, int root)
+      : tree_(tree),
+        root_(root),
+        depth(tree->N()),
+        first(tree->N()),
+        cnt(tree->N(), 1) { dfs(root, -1, 0); }
+
+  void dfs(int v, int parent, int d) {
+    depth[v] = d;
+    first[v] = order.size();
+    order.push_back(v);
+    for (const auto& e : tree_->g[v]) {
+      auto to = e.next(v);
+      if (to == parent) continue;
+      dfs(to, v, d + 1);
+      cnt[v] += cnt[to];
+    }
+  }
+
+  const Tree* tree_;
+  int root_;
+  vector<int> depth;
+  vector<int> order;
+  vector<int> first;
+  vector<int> cnt;
+};
+//~ END `EulerTraversal`
 #endif
