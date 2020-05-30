@@ -1,4 +1,5 @@
 #DEBUG_FLAGS=(-g -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -DLOCAL -rdynamic)
+STANDARD="c++11"  #  gnu++1z, c++11
 MAIN_TIMEOUT="2s"
 DEBUG_FLAGS=(-g -fsanitize=address -fsanitize=undefined -DLOCAL -rdynamic)
 STRESS_TEST_COUNT=10000
@@ -30,14 +31,14 @@ compile() {
   filename="$(basename -s ".cpp" $1)"
   ./translate/__main__.py "$1" "generated/${filename}.cpp"
   strip_debug_code "generated/${filename}.cpp" "generated/${filename}_no_debug.cpp"
-  g++-9 -std=gnu++1z -I . -O2 -D LOCAL "generated/${filename}.cpp" -o "obj/${filename}.out"
+  g++-9 -std="${STANDARD}" -I . -O2 -D LOCAL "generated/${filename}.cpp" -o "obj/${filename}.out"
 }
 
 run() {
   compile main.cpp
   if ! timeout ${MAIN_TIMEOUT} obj/main.out < input.txt &> output.txt ; then
     echo "Failed; running in debug mode"
-    g++-9 -std=gnu++1z "${DEBUG_FLAGS[@]}" "generated/main.cpp" -o "obj/main_debug.out"
+    g++-9 -std="${STANDARD}" "${DEBUG_FLAGS[@]}" "generated/main.cpp" -o "obj/main_debug.out"
     timeout ${MAIN_TIMEOUT} obj/main_debug.out < input.txt &> output.txt
   else
     cat "generated/main_no_debug.cpp" | pbcopy
