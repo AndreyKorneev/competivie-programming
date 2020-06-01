@@ -3,6 +3,7 @@
 #include "algs/io.h"
 #include "algs/random.h"
 #include "algs/search.h"
+#include "algs/algebra/matrix.h"
 #include "algs/data_structures/array.h"
 #include "algs/data_structures/collections.h"
 #include "algs/data_structures/compressed.h"

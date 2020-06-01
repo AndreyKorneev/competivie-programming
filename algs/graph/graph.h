@@ -41,6 +41,9 @@ struct Graph {
     }
     return result;
   }
+  // Brackets access.
+  const vector<Edge>& operator[](int i) const { return g[i]; }
+  vector<Edge>& operator[](int i) { return g[i]; }
 
   vector<vector<Edge>> g;
 };

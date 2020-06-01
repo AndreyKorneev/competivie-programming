@@ -44,13 +44,14 @@ template <typename T> struct Point {
   Point<T> DotProduct(const Point<T> &rhs) const { return {x * rhs.x + y * rhs.y}; }
   Point<T> Rotate(double a) const { return {x * cos(a) - y * sin(a), x * sin(a) + y * cos(a)}; }
   Point<T> Norm() const { return *this / Length(); }
-  double Length() const { return sqrt(x * 1.0 * x + y * 1.0 * y); }
-  double Distance(const Point<T> &rhs) const { return (*this - rhs).Length(); }
+  long double Length() const { return sqrtl(x * 1.0 * x + y * 1.0 * y); }
+  long double Distance(const Point<T> &rhs) const { return (*this - rhs).Length(); }
   double PolarAngle() const {
     double alpha = atan2(y, x);
     if (alpha < 0) alpha += 2 * PI;
     return alpha;
   }
+  double AngleTo(const Point<T>& rhs) { return fabs(PolarAngle() - rhs.PolarAngle()); }
 
   T x, y;
 };
