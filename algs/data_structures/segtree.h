@@ -115,6 +115,18 @@ struct SumSegmentTree {
   }
   inline void upd(int v, int ch) { t_[v] = t_[ch] + t_[ch + 1]; }
 
+  void set(int pos, T val) { set(0, 0, n_ - 1, pos, val); }
+  void set(int v, int l, int r, int pos, T val) {
+    if (l == r) {
+      t_[v] = val;
+      return;
+    }
+    int m = (l + r) / 2;
+    int ch = (v << 1) + 1;
+    if (pos <= m) set(ch, l, m, pos, val);
+    else set(ch + 1, m + 1, r, pos, val);
+    upd(v, ch);
+  }
   void add(int pos, int delta) { add(0, 0, n_ - 1, pos, delta); }
   void add(int v, int l, int r, int pos, int delta) {
     while (l <= r) {

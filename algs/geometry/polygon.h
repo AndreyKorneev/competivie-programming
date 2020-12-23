@@ -63,10 +63,42 @@ template <typename TPoint = Point<int>> struct Polygon {
     }
     return result / 2;
   }
+  double Perimeter() const {
+    double result = 0.0;
+    for (const auto& s : sides) result += s.Length();
+    return result;
+  }
 
   vector<Segment2D<TPoint>> sides;
   vector<TPoint> points;
 };
 //~ END `Polygon`
+
+//~ BEGIN `ConvexHull`
+// required: Point, Clockwise, CounterClockwise
+// source: https://e-maxx.ru/algo/convex_hull_graham
+template <typename TPoint, typename TResult = typename TPoint::TCoord>
+vector<TPoint> ConvexHull(vector<TPoint> source) {
+  if (source.size() <= 1) return source;
+  sort(source.begin(), source.end());
+  const auto& first = source.front();
+  const auto& last = source.back();
+  vector<TPoint> up, down;
+  up.push_back(first);
+  down.push_back(first);
+  for (size_t i = 1; i < source.size(); ++i) {
+    if (i == source.size() - 1 || Clockwise<TPoint, TResult>(first, source[i], last)) {
+      while (up.size() >= 2 && !Clockwise<TPoint, TResult>(*(up.end() - 2), up.back(), source[i])) up.pop_back();
+      up.push_back(source[i]);
+    }
+    if (i == source.size() - 1 || CounterClockwise<TPoint, TResult>(first, source[i], last)) {
+      while (down.size() >= 2 && !CounterClockwise<TPoint, TResult>( *(down.end() - 2), down.back(), source[i])) down.pop_back();
+      down.push_back(source[i]);
+    }
+  }
+  for (size_t i = down.size() - 2; i > 0; --i) up.push_back(down[i]);
+  return up;
+}
+//~ END `ConvexHull`
 
 #endif

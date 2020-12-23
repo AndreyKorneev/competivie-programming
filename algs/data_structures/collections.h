@@ -10,6 +10,14 @@ map<T, int> Counter(const C& container) {
   return result;
 }
 //~ END Counter
+//
+//~ BEGIN Unique
+template<typename C, typename T = typename C::value_type>
+C Unique(const C& container) {
+  set<T> res(container.begin(), container.end());
+  return {res.begin(), res.end()};
+}
+//~ END Unique
 
 #endif
 

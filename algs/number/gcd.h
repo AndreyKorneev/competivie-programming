@@ -21,21 +21,21 @@ T GcdExtended(const T a, const T b, T& x, T& y) {
 
 //~ BEGIN `DiophantineSolver`
 // required: GcdExtended
-#if __cplusplus <= 201703L
-namespace std {
-template <typename T>
-struct optional {
-  optional() : has_value_(false) {}
-  optional(const T& value) : has_value_(true), value_(value) {}
+//#if __cplusplus <= 201703L
+//namespace std {
+//template <typename T>
+//struct optional {
+  //optional() : has_value_(false) {}
+  //optional(const T& value) : has_value_(true), value_(value) {}
 
-  bool has_value() { return has_value_; }
-  T value() { return value_; }
+  //bool has_value() { return has_value_; }
+  //T value() { return value_; }
 
-  T value_;
-  bool has_value_;
-};
-}  // namespace std
-#endif
+  //T value_;
+  //bool has_value_;
+//};
+//}  // namespace std
+//#endif
 // Source: https://e-maxx.ru/algo/diofant_2_equation
 template <typename T>
 struct DiophantineSolver {
@@ -47,7 +47,7 @@ struct DiophantineSolver {
 
   std::optional<Solution> AnySolution() {
     if (c_ % gcd_) return {};
-    return {xi_, yi_};
+    return make_pair(xi_, yi_);
   }
 
   void ShiftSolution(Solution& s, T cnt) {

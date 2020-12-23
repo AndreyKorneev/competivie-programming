@@ -49,7 +49,16 @@ struct PrimesHelper {
 
   Factorized Factorize(int a) {
     map<int, int> res;
-    while (a > 1) {
+    while (a >= N) {
+      for (auto p : primes) {
+        while (a % p == 0) {
+          res[p]++;
+          a /= p;
+        }
+        if (a < N) break;
+      }
+    }
+    while (a > 1 && a < N) {
       auto d = minDivisor[a];
       while (a % d == 0) {
         res[d]++;
@@ -58,6 +67,10 @@ struct PrimesHelper {
     }
     if (a > 1) res[a]++;
     return Factorized(res);
+  }
+
+  bool IsPrime(int a) {
+    return a > 1 && minDivisor[a] == a;
   }
 
   array<int, N> minDivisor;

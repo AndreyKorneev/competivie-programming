@@ -174,3 +174,5 @@ endfunction
 
 " debugging
 let g:ConqueGdb_Leader = '\'
+
+set tags=./tags;,tags;

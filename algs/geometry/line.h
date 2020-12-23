@@ -16,6 +16,7 @@ template <typename TPoint = Point<int>> struct Line {
     c = -a * p1.x;
     c += -b * p1.y;
   }
+  Line(double a, double b, double c) : a(a), b(b), c(c) { }
 
   int test(const TPoint &p) const {
     double res = a * p.x + b * p.y + c;
@@ -26,7 +27,7 @@ template <typename TPoint = Point<int>> struct Line {
 
   double vDist() const { return sqrt(a * a + b * b); }
 
-  double distance(const TPoint &p) const {
+  double Distance(const TPoint &p) const {
     return fabs(a * p.x + b * p.y + c) / vDist();
   }
 
@@ -36,6 +37,16 @@ template <typename TPoint = Point<int>> struct Line {
     return Point<double>{-Determinator<double>(c, b, second.c, second.b) / det,
                          -Determinator<double>(a, c, second.a, second.c) / det};
   }
+
+  Line Bisection(const Line<TPoint>& second) const {
+    double m1 = this->vDist();
+    double m2 = second.vDist();
+    return {a / m1 + second.a / m2,
+            b / m1 + second.b / m2,
+            c / m1 + second.c / m2};
+  }
+
+  Line Tranlate(double r) const { return {a, b, c + r * vDist()}; }
 };
 //~ END `Line`
 
@@ -47,6 +58,8 @@ struct Segment2D {
 
   Segment2D() {}
   Segment2D(const TPoint& f, const TPoint& t) : from(f), to(t) {}
+
+  double Length() const { return (from - to).Length(); }
 
   Line<TPoint> ToLine() const { return Line(from, to); }
 

@@ -1,9 +1,12 @@
+# ulimit -s unlimited
 #DEBUG_FLAGS=(-g -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -DLOCAL -rdynamic)
-STANDARD="c++11"  #  gnu++1z, c++11
+STANDARD="gnu++1z"  #  gnu++1z, c++11
 MAIN_TIMEOUT="2s"
+# FLAGS=( -Wl,-stack_size -Wl,0x10000000 -I . -O2 -DLOCAL)
+FLAGS=( -I . -O2 -DLOCAL)
 DEBUG_FLAGS=(-g -fsanitize=address -fsanitize=undefined -DLOCAL -rdynamic)
 STRESS_TEST_COUNT=10000
-STRESS_TEST_OUTPUT_EACH=1000
+STRESS_TEST_OUTPUT_EACH=100
 STRESS_FAIL_ON_INCORRECT_TEST=true
 
 strip_debug_code() {
@@ -31,7 +34,7 @@ compile() {
   filename="$(basename -s ".cpp" $1)"
   ./translate/__main__.py "$1" "generated/${filename}.cpp"
   strip_debug_code "generated/${filename}.cpp" "generated/${filename}_no_debug.cpp"
-  g++-9 -std="${STANDARD}" -I . -O2 -D LOCAL "generated/${filename}.cpp" -o "obj/${filename}.out"
+  g++-9 -std="${STANDARD}" "${FLAGS[@]}" "generated/${filename}.cpp" -o "obj/${filename}.out"
 }
 
 run() {
@@ -65,13 +68,37 @@ stress() {
         continue
       fi
     fi
-    timeout ${MAIN_TIMEOUT} obj/main.out < input.txt > output.txt 2> /dev/null
+    if ! timeout ${MAIN_TIMEOUT} obj/main.out < input.txt > output.txt 2> /dev/null; then
+      echo "Failed on test #$i"
+      return
+    fi
     if ! cmp -s output.txt stress/output.txt > /dev/null 2>&1; then
       if ! timeout 2s obj/checker.out input.txt stress/output.txt output.txt  &> stress/checker.txt; then
         echo "Diff found. Test #$i"
         cat stress/checker.txt
         return;
       fi
+    fi
+  done
+  echo "No diff found"
+}
+
+stress_interactive() {
+  rm scores*.txt
+  rm queries*.txt
+
+  compile main.cpp
+  compile stress/generator.cpp
+
+  for (( i=1; i<=${STRESS_TEST_COUNT}; i++ )); do
+    if (($i % ${STRESS_TEST_OUTPUT_EACH} == 0)); then
+      echo "Test #$i"
+    fi
+    rm -f foo
+    mkfifo foo
+    if ! timeout 2s obj/main.out < foo 2> output.txt | obj/generator.out > foo ; then
+      echo "Diff found. Test #$i"
+      return;
     fi
   done
   echo "No diff found"
@@ -127,6 +154,9 @@ main() {
       ;;
     stress)
       stress
+      ;;
+    stress_i)
+      stress_interactive
       ;;
     new)
       new

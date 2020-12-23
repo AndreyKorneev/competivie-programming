@@ -15,7 +15,7 @@ struct BridgeFinder {
         is_cut_point(graph->N()),
         scc_id(graph->N()) {
     dfs(0, -1);
-    mark_visited(-1);
+    //mark_visited(-1);
   }
 
   void mark_visited(int v) {
